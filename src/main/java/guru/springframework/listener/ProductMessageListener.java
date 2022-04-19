@@ -2,6 +2,7 @@ package guru.springframework.listener;
 
 import guru.springframework.domain.Product;
 import guru.springframework.repositories.ProductRepository;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,13 +28,12 @@ public class ProductMessageListener {
      * See {@link guru.springframework.SpringBootRabbitMQApplication} for more details
      * @param message
      */
+    @RabbitListener
     public void receiveMessage(Map<String, String> message) {
         log.info("Received <" + message + ">");
         Long id = Long.valueOf(message.get("id"));
-        Product product = productRepository.findById(id).orElse(null);
-        product.setMessageReceived(true);
-        product.setMessageCount(product.getMessageCount() + 1);
-
+        var product = new Product();
+        product.setDescription("xxxx");
         productRepository.save(product);
         log.info("Message processed...");
     }
