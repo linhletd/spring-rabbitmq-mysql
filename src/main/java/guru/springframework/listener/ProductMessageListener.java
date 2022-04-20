@@ -3,6 +3,7 @@ package guru.springframework.listener;
 import guru.springframework.domain.Product;
 import guru.springframework.repositories.ProductRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,13 +16,11 @@ import java.util.Map;
 @Component
 public class ProductMessageListener {
 
+    @Autowired
     private ProductRepository productRepository;
 
     private static final Logger log = LogManager.getLogger(ProductMessageListener.class);
 
-    public ProductMessageListener(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     /**
      * This method is invoked whenever any new message is put in the queue.
